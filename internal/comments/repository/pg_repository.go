@@ -9,9 +9,9 @@ import (
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 
-	"github.com/AleksK1NG/api-mc/internal/comments"
-	"github.com/AleksK1NG/api-mc/internal/models"
-	"github.com/AleksK1NG/api-mc/pkg/utils"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/comments"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/models"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/utils"
 )
 
 // Comments Repository

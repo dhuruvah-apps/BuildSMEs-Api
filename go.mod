@@ -1,4 +1,4 @@
-module github.com/AleksK1NG/api-mc
+module github.com/dhuruvah-apps/BuildSMEs-Api
 
 go 1.15
 

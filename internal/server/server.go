@@ -13,10 +13,10 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/minio/minio-go/v7"
 
-	"github.com/AleksK1NG/api-mc/config"
-	_ "github.com/AleksK1NG/api-mc/docs"
-	"github.com/AleksK1NG/api-mc/pkg/db/redis"
-	"github.com/AleksK1NG/api-mc/pkg/logger"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/config"
+	_ "github.com/dhuruvah-apps/BuildSMEs-Api/docs"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/db/redis"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/logger"
 )
 
 const (

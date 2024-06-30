@@ -10,8 +10,8 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/require"
 
-	"github.com/AleksK1NG/api-mc/internal/models"
-	"github.com/AleksK1NG/api-mc/pkg/utils"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/models"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/utils"
 )
 
 func TestAuthRepo_Register(t *testing.T) {

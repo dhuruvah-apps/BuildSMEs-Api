@@ -3,8 +3,8 @@ package http
 import (
 	"github.com/labstack/echo/v4"
 
-	"github.com/AleksK1NG/api-mc/internal/middleware"
-	"github.com/AleksK1NG/api-mc/internal/news"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/middleware"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/news"
 )
 
 // Map news routes

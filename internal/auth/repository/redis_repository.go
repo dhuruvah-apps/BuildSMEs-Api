@@ -7,9 +7,9 @@ import (
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 
-	"github.com/AleksK1NG/api-mc/internal/auth"
-	"github.com/AleksK1NG/api-mc/internal/models"
-	"github.com/AleksK1NG/api-mc/pkg/db/redis"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/auth"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/models"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/db/redis"
 )
 
 // Auth redis repository

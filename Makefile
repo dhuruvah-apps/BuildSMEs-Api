@@ -15,27 +15,6 @@ migrate_up:
 migrate_down:
 	migrate -database postgres://postgres:postgres@localhost:5432/auth_db?sslmode=disable -path migrations down 1
 
-
-# ==============================================================================
-# Docker compose commands
-
-develop:
-	echo "Starting docker environment"
-	docker-compose -f docker-compose.dev.yml up --build
-
-docker_delve:
-	echo "Starting docker debug environment"
-	docker-compose -f docker-compose.delve.yml up --build
-
-prod:
-	echo "Starting docker prod environment"
-	docker-compose -f docker-compose.prod.yml up --build
-
-local:
-	echo "Starting local environment"
-	docker-compose -f docker-compose.local.yml up --build
-
-
 # ==============================================================================
 # Tools commands
 
@@ -46,7 +25,6 @@ run-linter:
 swaggo:
 	echo "Starting swagger generating"
 	swag init -g **/**/*.go
-
 
 # ==============================================================================
 # Main

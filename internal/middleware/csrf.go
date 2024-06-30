@@ -5,9 +5,9 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"github.com/AleksK1NG/api-mc/pkg/csrf"
-	"github.com/AleksK1NG/api-mc/pkg/httpErrors"
-	"github.com/AleksK1NG/api-mc/pkg/utils"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/csrf"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/httpErrors"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/utils"
 )
 
 // CSRF Middleware

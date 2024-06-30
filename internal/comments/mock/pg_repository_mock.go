@@ -6,8 +6,8 @@ package mock
 
 import (
 	context "context"
-	models "github.com/AleksK1NG/api-mc/internal/models"
-	utils "github.com/AleksK1NG/api-mc/pkg/utils"
+	models "github.com/dhuruvah-apps/BuildSMEs-Api/internal/models"
+	utils "github.com/dhuruvah-apps/BuildSMEs-Api/pkg/utils"
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
 	reflect "reflect"

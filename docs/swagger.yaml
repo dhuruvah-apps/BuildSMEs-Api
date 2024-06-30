@@ -170,9 +170,9 @@ definitions:
     type: object
 info:
   contact:
-    email: alexander.bryksin@yandex.ru
-    name: Alexander Bryksin
-    url: https://github.com/AleksK1NG
+    email: jaganathan.eswaran@gmail.com
+    name: Dhuruvah Apps
+    url: https://github.com/dhuruvah-apps/BuildSMEs-Api
   description: Example Golang REST API
   title: Go Example REST API
   version: "1.0"

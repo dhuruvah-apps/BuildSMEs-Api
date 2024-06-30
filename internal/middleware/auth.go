@@ -12,11 +12,11 @@ import (
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
 
-	"github.com/AleksK1NG/api-mc/config"
-	"github.com/AleksK1NG/api-mc/internal/auth"
-	"github.com/AleksK1NG/api-mc/internal/models"
-	"github.com/AleksK1NG/api-mc/pkg/httpErrors"
-	"github.com/AleksK1NG/api-mc/pkg/utils"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/config"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/auth"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/models"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/httpErrors"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/utils"
 )
 
 // Auth sessions middleware using redis

@@ -4,7 +4,7 @@ package auth
 import (
 	"context"
 
-	"github.com/AleksK1NG/api-mc/internal/models"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/models"
 )
 
 // Auth Redis repository interface

@@ -3,8 +3,8 @@ package http
 import (
 	"github.com/labstack/echo/v4"
 
-	"github.com/AleksK1NG/api-mc/internal/auth"
-	"github.com/AleksK1NG/api-mc/internal/middleware"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/auth"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/middleware"
 )
 
 // Map auth routes

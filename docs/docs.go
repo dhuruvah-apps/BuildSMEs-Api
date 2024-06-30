@@ -19,9 +19,9 @@ var doc = `{
         "description": "{{.Description}}",
         "title": "{{.Title}}",
         "contact": {
-            "name": "Alexander Bryksin",
-            "url": "https://github.com/AleksK1NG",
-            "email": "alexander.bryksin@yandex.ru"
+            "name": "Dhuruvah Apps",
+            "url": "https://github.com/dhuruvah-apps/BuildSMEs-Api",
+            "email": "jaganathan.eswaran@gmail.com"
         },
         "version": "{{.Version}}"
     },

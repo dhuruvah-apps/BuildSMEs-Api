@@ -7,12 +7,12 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/opentracing/opentracing-go"
 
-	"github.com/AleksK1NG/api-mc/config"
-	"github.com/AleksK1NG/api-mc/internal/models"
-	"github.com/AleksK1NG/api-mc/internal/news"
-	"github.com/AleksK1NG/api-mc/pkg/httpErrors"
-	"github.com/AleksK1NG/api-mc/pkg/logger"
-	"github.com/AleksK1NG/api-mc/pkg/utils"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/config"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/models"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/news"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/httpErrors"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/logger"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/utils"
 )
 
 // News handlers

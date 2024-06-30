@@ -8,24 +8,24 @@ import (
 	jaegerlog "github.com/uber/jaeger-client-go/log"
 	"github.com/uber/jaeger-lib/metrics"
 
-	"github.com/AleksK1NG/api-mc/config"
-	"github.com/AleksK1NG/api-mc/internal/server"
-	"github.com/AleksK1NG/api-mc/pkg/db/aws"
-	"github.com/AleksK1NG/api-mc/pkg/db/postgres"
-	"github.com/AleksK1NG/api-mc/pkg/db/redis"
-	"github.com/AleksK1NG/api-mc/pkg/logger"
-	"github.com/AleksK1NG/api-mc/pkg/utils"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/config"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/server"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/db/aws"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/db/postgres"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/db/redis"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/logger"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/utils"
 
 	"github.com/uber/jaeger-client-go"
 	jaegercfg "github.com/uber/jaeger-client-go/config"
 )
 
-// @title Go Example REST API
+// @title BuildSMEs REST API
 // @version 1.0
-// @description Example Golang REST API
-// @contact.name Alexander Bryksin
-// @contact.url https://github.com/AleksK1NG
-// @contact.email alexander.bryksin@yandex.ru
+// @description Golang REST API for BuildSMEs - A construction management platform for SMEs
+// @contact.name Dhuruvah Apps
+// @contact.url https://github.com/dhuruvah-apps/BuildSMEs-Api
+// @contact.email jaganathan.eswaran@gmail.com
 // @BasePath /api/v1
 func main() {
 	log.Println("Starting api server")

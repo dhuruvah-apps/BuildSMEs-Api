@@ -4,7 +4,7 @@ package session
 import (
 	"context"
 
-	"github.com/AleksK1NG/api-mc/internal/models"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/models"
 )
 
 // Session repository

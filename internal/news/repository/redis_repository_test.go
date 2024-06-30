@@ -9,11 +9,11 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 
-	"github.com/AleksK1NG/api-mc/config"
-	"github.com/AleksK1NG/api-mc/internal/models"
-	"github.com/AleksK1NG/api-mc/internal/news"
-	"github.com/AleksK1NG/api-mc/pkg/db/redis"
-	"github.com/AleksK1NG/api-mc/pkg/logger"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/config"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/models"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/news"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/db/redis"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/logger"
 )
 
 func SetupRedis() (news.RedisRepository, func()) {

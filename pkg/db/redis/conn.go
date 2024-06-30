@@ -8,9 +8,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/AleksK1NG/api-mc/config"
-	"github.com/AleksK1NG/api-mc/pkg/logger"
 	"github.com/dgraph-io/badger"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/config"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/logger"
 )
 
 type BadgerStore struct {

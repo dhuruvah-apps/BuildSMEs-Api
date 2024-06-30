@@ -13,12 +13,12 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/require"
 
-	"github.com/AleksK1NG/api-mc/internal/comments/mock"
-	"github.com/AleksK1NG/api-mc/internal/comments/usecase"
-	"github.com/AleksK1NG/api-mc/internal/models"
-	"github.com/AleksK1NG/api-mc/pkg/converter"
-	"github.com/AleksK1NG/api-mc/pkg/logger"
-	"github.com/AleksK1NG/api-mc/pkg/utils"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/comments/mock"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/comments/usecase"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/models"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/converter"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/logger"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/utils"
 )
 
 func TestCommentsHandlers_Create(t *testing.T) {
