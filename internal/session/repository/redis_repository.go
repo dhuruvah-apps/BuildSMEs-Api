@@ -4,9 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 
-	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
@@ -14,6 +12,7 @@ import (
 	"github.com/AleksK1NG/api-mc/config"
 	"github.com/AleksK1NG/api-mc/internal/models"
 	"github.com/AleksK1NG/api-mc/internal/session"
+	"github.com/AleksK1NG/api-mc/pkg/db/redis"
 )
 
 const (
@@ -22,19 +21,19 @@ const (
 
 // Session repository
 type sessionRepo struct {
-	redisClient *redis.Client
+	redisClient *redis.BadgerStore
 	basePrefix  string
 	cfg         *config.Config
 }
 
 // Session repository constructor
-func NewSessionRepository(redisClient *redis.Client, cfg *config.Config) session.SessRepository {
+func NewSessionRepository(redisClient *redis.BadgerStore, cfg *config.Config) session.SessRepository {
 	return &sessionRepo{redisClient: redisClient, basePrefix: basePrefix, cfg: cfg}
 }
 
 // Create session in redis
 func (s *sessionRepo) CreateSession(ctx context.Context, sess *models.Session, expire int) (string, error) {
-	span, ctx := opentracing.StartSpanFromContext(ctx, "sessionRepo.CreateSession")
+	span, _ := opentracing.StartSpanFromContext(ctx, "sessionRepo.CreateSession")
 	defer span.Finish()
 
 	sess.SessionID = uuid.New().String()
@@ -44,7 +43,7 @@ func (s *sessionRepo) CreateSession(ctx context.Context, sess *models.Session, e
 	if err != nil {
 		return "", errors.WithMessage(err, "sessionRepo.CreateSession.json.Marshal")
 	}
-	if err = s.redisClient.Set(ctx, sessionKey, sessBytes, time.Second*time.Duration(expire)).Err(); err != nil {
+	if err = s.redisClient.Set([]byte(sessionKey), sessBytes); err != nil {
 		return "", errors.Wrap(err, "sessionRepo.CreateSession.redisClient.Set")
 	}
 	return sessionKey, nil
@@ -52,10 +51,10 @@ func (s *sessionRepo) CreateSession(ctx context.Context, sess *models.Session, e
 
 // Get session by id
 func (s *sessionRepo) GetSessionByID(ctx context.Context, sessionID string) (*models.Session, error) {
-	span, ctx := opentracing.StartSpanFromContext(ctx, "sessionRepo.GetSessionByID")
+	span, _ := opentracing.StartSpanFromContext(ctx, "sessionRepo.GetSessionByID")
 	defer span.Finish()
 
-	sessBytes, err := s.redisClient.Get(ctx, sessionID).Bytes()
+	sessBytes, err := s.redisClient.Get([]byte(sessionID))
 	if err != nil {
 		return nil, errors.Wrap(err, "sessionRep.GetSessionByID.redisClient.Get")
 	}
@@ -69,12 +68,13 @@ func (s *sessionRepo) GetSessionByID(ctx context.Context, sessionID string) (*mo
 
 // Delete session by id
 func (s *sessionRepo) DeleteByID(ctx context.Context, sessionID string) error {
-	span, ctx := opentracing.StartSpanFromContext(ctx, "sessionRepo.DeleteByID")
+	span, _ := opentracing.StartSpanFromContext(ctx, "sessionRepo.DeleteByID")
 	defer span.Finish()
 
-	if err := s.redisClient.Del(ctx, sessionID).Err(); err != nil {
+	if err := s.redisClient.Del([]byte(sessionID)); err != nil {
 		return errors.Wrap(err, "sessionRepo.DeleteByID")
 	}
+
 	return nil
 }
 

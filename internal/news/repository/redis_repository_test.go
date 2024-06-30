@@ -2,35 +2,47 @@ package repository
 
 import (
 	"context"
-	"log"
+	"errors"
+	"os"
 	"testing"
 
-	"github.com/alicebob/miniredis"
-	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 
+	"github.com/AleksK1NG/api-mc/config"
 	"github.com/AleksK1NG/api-mc/internal/models"
 	"github.com/AleksK1NG/api-mc/internal/news"
+	"github.com/AleksK1NG/api-mc/pkg/db/redis"
+	"github.com/AleksK1NG/api-mc/pkg/logger"
 )
 
-func SetupRedis() news.RedisRepository {
-	mr, err := miniredis.Run()
-	if err != nil {
-		log.Fatal(err)
-	}
-	client := redis.NewClient(&redis.Options{
-		Addr: mr.Addr(),
-	})
+func SetupRedis() (news.RedisRepository, func()) {
+	path := "/tmp/db/" + uuid.NewString()
+	client := redis.NewRedisClient(&config.Config{Redis: config.RedisConfig{
+		RedisAddr: path,
+	}, Session: config.Session{Expire: 3600}}, logger.NewApiLogger(&config.Config{Redis: config.RedisConfig{
+		RedisAddr: "/tmp/db",
+	}}))
 
 	newsRedisRepo := NewNewsRedisRepo(client)
-	return newsRedisRepo
+
+	if newsRedisRepo == nil {
+		logger.NewApiLogger(&config.Config{Redis: config.RedisConfig{
+			RedisAddr: "/tmp/db",
+		}}).Errorf("Redis Client init: %s", errors.New(" error"))
+	}
+
+	return newsRedisRepo, func() {
+		client.Close()
+		os.RemoveAll(path)
+	}
 }
 
 func TestNewsRedisRepo_SetNewsCtx(t *testing.T) {
 	t.Parallel()
 
-	newsRedisRepo := SetupRedis()
+	newsRedisRepo, clean := SetupRedis()
+	defer t.Cleanup(func() { clean() })
 
 	t.Run("SetNewsCtx", func(t *testing.T) {
 		newsUID := uuid.New()
@@ -50,7 +62,8 @@ func TestNewsRedisRepo_SetNewsCtx(t *testing.T) {
 func TestNewsRedisRepo_GetNewsByIDCtx(t *testing.T) {
 	t.Parallel()
 
-	newsRedisRepo := SetupRedis()
+	newsRedisRepo, clean := SetupRedis()
+	defer t.Cleanup(func() { clean() })
 
 	t.Run("GetNewsByIDCtx", func(t *testing.T) {
 		newsUID := uuid.New()
@@ -79,7 +92,8 @@ func TestNewsRedisRepo_GetNewsByIDCtx(t *testing.T) {
 func TestNewsRedisRepo_DeleteNewsCtx(t *testing.T) {
 	t.Parallel()
 
-	newsRedisRepo := SetupRedis()
+	newsRedisRepo, clean := SetupRedis()
+	defer t.Cleanup(func() { clean() })
 
 	t.Run("SetNewsCtx", func(t *testing.T) {
 		key := "key"

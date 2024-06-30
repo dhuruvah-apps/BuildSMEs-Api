@@ -9,13 +9,13 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/go-redis/redis/v8"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
 	"github.com/minio/minio-go/v7"
 
 	"github.com/AleksK1NG/api-mc/config"
 	_ "github.com/AleksK1NG/api-mc/docs"
+	"github.com/AleksK1NG/api-mc/pkg/db/redis"
 	"github.com/AleksK1NG/api-mc/pkg/logger"
 )
 
@@ -31,13 +31,13 @@ type Server struct {
 	echo        *echo.Echo
 	cfg         *config.Config
 	db          *sqlx.DB
-	redisClient *redis.Client
+	redisClient *redis.BadgerStore
 	awsClient   *minio.Client
 	logger      logger.Logger
 }
 
 // NewServer New Server constructor
-func NewServer(cfg *config.Config, db *sqlx.DB, redisClient *redis.Client, awsS3Client *minio.Client, logger logger.Logger) *Server {
+func NewServer(cfg *config.Config, db *sqlx.DB, redisClient *redis.BadgerStore, awsS3Client *minio.Client, logger logger.Logger) *Server {
 	return &Server{echo: echo.New(), cfg: cfg, db: db, redisClient: redisClient, awsClient: awsS3Client, logger: logger}
 }
 

@@ -2,35 +2,42 @@ package repository
 
 import (
 	"context"
-	"log"
+	"os"
 	"testing"
 
-	"github.com/alicebob/miniredis"
-	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 
+	"github.com/AleksK1NG/api-mc/config"
 	"github.com/AleksK1NG/api-mc/internal/models"
 	"github.com/AleksK1NG/api-mc/internal/session"
+	"github.com/AleksK1NG/api-mc/pkg/db/redis"
+	"github.com/AleksK1NG/api-mc/pkg/logger"
 )
 
-func SetupRedis() session.SessRepository {
-	mr, err := miniredis.Run()
-	if err != nil {
-		log.Fatal(err)
-	}
-	client := redis.NewClient(&redis.Options{
-		Addr: mr.Addr(),
-	})
+func SetupRedis() (session.SessRepository, func()) {
+	path := "/tmp/db/" + uuid.NewString()
+	client := redis.NewRedisClient(&config.Config{Redis: config.RedisConfig{
+		RedisAddr: path,
+	}, Session: config.Session{Expire: 3600}}, logger.NewApiLogger(&config.Config{Redis: config.RedisConfig{
+		RedisAddr: "/tmp/db",
+	}}))
 
-	sessRepository := NewSessionRepository(client, nil)
-	return sessRepository
+	sessRepository := NewSessionRepository(client, &config.Config{Redis: config.RedisConfig{
+		RedisAddr: "/tmp/db",
+	}})
+
+	return sessRepository, func() {
+		client.Close()
+		os.RemoveAll(path)
+	}
 }
 
 func TestSessionRepo_CreateSession(t *testing.T) {
 	t.Parallel()
 
-	sessRepository := SetupRedis()
+	sessRepository, clean := SetupRedis()
+	defer t.Cleanup(func() { clean() })
 
 	t.Run("CreateSession", func(t *testing.T) {
 		sessUUID := uuid.New()
@@ -47,7 +54,8 @@ func TestSessionRepo_CreateSession(t *testing.T) {
 func TestSessionRepo_GetSessionByID(t *testing.T) {
 	t.Parallel()
 
-	sessRepository := SetupRedis()
+	sessRepository, clean := SetupRedis()
+	defer t.Cleanup(func() { clean() })
 
 	t.Run("GetSessionByID", func(t *testing.T) {
 		sessUUID := uuid.New()
@@ -68,7 +76,8 @@ func TestSessionRepo_GetSessionByID(t *testing.T) {
 func TestSessionRepo_DeleteByID(t *testing.T) {
 	t.Parallel()
 
-	sessRepository := SetupRedis()
+	sessRepository, clean := SetupRedis()
+	defer t.Cleanup(func() { clean() })
 
 	t.Run("DeleteByID", func(t *testing.T) {
 		sessUUID := uuid.New()

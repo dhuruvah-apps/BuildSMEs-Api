@@ -55,7 +55,10 @@ func main() {
 	}
 	defer psqlDB.Close()
 
-	redisClient := redis.NewRedisClient(cfg)
+	redisClient := redis.NewRedisClient(cfg, appLogger)
+	if redisClient == nil {
+		appLogger.Errorf("Redis Client init: %s", err)
+	}
 	defer redisClient.Close()
 	appLogger.Info("Redis connected")
 

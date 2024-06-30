@@ -1,9 +1,9 @@
 run:
   tests: false
-  skip-dirs:
+  exclude-dirs:
     - vendor/
 
-  skip-files:
+  exclude-files:
     - "_easyjson.go"
     - ".pb.go"
     - ".svc.go"
@@ -25,4 +25,4 @@ linters-settings:
 
 
 output:
-  format: tab
+  formats: tab
