@@ -10,9 +10,8 @@ import (
 
 	"github.com/dhuruvah-apps/BuildSMEs-Api/config"
 	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/server"
-	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/db/aws"
-	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/db/postgres"
 	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/db/redis"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/db/sqlite"
 	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/logger"
 	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/utils"
 
@@ -47,13 +46,13 @@ func main() {
 	appLogger.InitLogger()
 	appLogger.Infof("AppVersion: %s, LogLevel: %s, Mode: %s, SSL: %v", cfg.Server.AppVersion, cfg.Logger.Level, cfg.Server.Mode, cfg.Server.SSL)
 
-	psqlDB, err := postgres.NewPsqlDB(cfg)
+	sqliteDB, err := sqlite.NewSqliteDB(cfg)
 	if err != nil {
-		appLogger.Fatalf("Postgresql init: %s", err)
+		appLogger.Fatalf("Sqlite init: %s", err)
 	} else {
-		appLogger.Infof("Postgres connected, Status: %#v", psqlDB.Stats())
+		appLogger.Infof("Sqlite connected, Status: %#v", sqliteDB.Stats())
 	}
-	defer psqlDB.Close()
+	defer sqliteDB.Close()
 
 	redisClient := redis.NewRedisClient(cfg, appLogger)
 	if redisClient == nil {
@@ -62,11 +61,11 @@ func main() {
 	defer redisClient.Close()
 	appLogger.Info("Redis connected")
 
-	awsClient, err := aws.NewAWSClient(cfg.AWS.Endpoint, cfg.AWS.MinioAccessKey, cfg.AWS.MinioSecretKey, cfg.AWS.UseSSL)
-	if err != nil {
-		appLogger.Errorf("AWS Client init: %s", err)
-	}
-	appLogger.Info("AWS S3 connected")
+	// awsClient, err := aws.NewAWSClient(cfg.AWS.Endpoint, cfg.AWS.MinioAccessKey, cfg.AWS.MinioSecretKey, cfg.AWS.UseSSL)
+	// if err != nil {
+	// 	appLogger.Errorf("AWS Client init: %s", err)
+	// }
+	// appLogger.Info("AWS S3 connected")
 
 	jaegerCfgInstance := jaegercfg.Configuration{
 		ServiceName: cfg.Jaeger.ServiceName,
@@ -93,7 +92,7 @@ func main() {
 	defer closer.Close()
 	appLogger.Info("Opentracing connected")
 
-	s := server.NewServer(cfg, psqlDB, redisClient, awsClient, appLogger)
+	s := server.NewServer(cfg, sqliteDB, redisClient, appLogger)
 	if err = s.Run(); err != nil {
 		log.Fatal(err)
 	}

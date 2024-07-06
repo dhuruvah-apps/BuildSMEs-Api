@@ -24,7 +24,7 @@ run-linter:
 
 swaggo:
 	echo "Starting swagger generating"
-	swag init -g **/**/*.go
+	swag init -g cmd/api/main.go
 
 # ==============================================================================
 # Main

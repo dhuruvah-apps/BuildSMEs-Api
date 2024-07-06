@@ -1,15 +1,6 @@
 basePath: /api/v1
 definitions:
-  httpErrors.RestErr:
-    type: object
-  httpErrors.RestError:
-    properties:
-      error:
-        type: string
-      status:
-        type: integer
-    type: object
-  models.Comment:
+  github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.Comment:
     properties:
       author_id:
         type: string
@@ -20,6 +11,7 @@ definitions:
       likes:
         type: integer
       message:
+        minLength: 10
         type: string
       news_id:
         type: string
@@ -30,7 +22,7 @@ definitions:
     - message
     - news_id
     type: object
-  models.CommentBase:
+  github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.CommentBase:
     properties:
       author:
         type: string
@@ -43,6 +35,7 @@ definitions:
       likes:
         type: integer
       message:
+        minLength: 10
         type: string
       updated_at:
         type: string
@@ -51,11 +44,11 @@ definitions:
     - author_id
     - message
     type: object
-  models.CommentsList:
+  github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.CommentsList:
     properties:
       comments:
         items:
-          $ref: '#/definitions/models.CommentBase'
+          $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.CommentBase'
         type: array
       has_more:
         type: boolean
@@ -68,21 +61,25 @@ definitions:
       total_pages:
         type: integer
     type: object
-  models.News:
+  github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.News:
     properties:
       author_id:
         type: string
       category:
+        maxLength: 10
         type: string
       content:
+        minLength: 20
         type: string
       created_at:
         type: string
       image_url:
+        maxLength: 512
         type: string
       news_id:
         type: string
       title:
+        minLength: 10
         type: string
       updated_at:
         type: string
@@ -91,13 +88,13 @@ definitions:
     - content
     - title
     type: object
-  models.NewsList:
+  github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.NewsList:
     properties:
       has_more:
         type: boolean
       news:
         items:
-          $ref: '#/definitions/models.News'
+          $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.News'
         type: array
       page:
         type: integer
@@ -108,39 +105,51 @@ definitions:
       total_pages:
         type: integer
     type: object
-  models.User:
+  github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.User:
     properties:
       about:
+        maxLength: 1024
         type: string
       address:
+        maxLength: 250
         type: string
       avatar:
+        maxLength: 512
         type: string
       birthday:
         type: string
       city:
+        maxLength: 24
         type: string
       country:
+        maxLength: 24
         type: string
       created_at:
         type: string
       email:
+        maxLength: 60
         type: string
       first_name:
+        maxLength: 30
         type: string
       gender:
+        maxLength: 10
         type: string
       last_name:
+        maxLength: 30
         type: string
       login_date:
         type: string
       password:
+        minLength: 6
         type: string
       phone_number:
+        maxLength: 20
         type: string
       postcode:
         type: integer
       role:
+        maxLength: 10
         type: string
       updated_at:
         type: string
@@ -151,7 +160,7 @@ definitions:
     - last_name
     - password
     type: object
-  models.UsersList:
+  github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.UsersList:
     properties:
       has_more:
         type: boolean
@@ -165,16 +174,24 @@ definitions:
         type: integer
       users:
         items:
-          $ref: '#/definitions/models.User'
+          $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.User'
         type: array
+    type: object
+  github_com_dhuruvah-apps_BuildSMEs-Api_pkg_httpErrors.RestError:
+    properties:
+      error:
+        type: string
+      status:
+        type: integer
     type: object
 info:
   contact:
     email: jaganathan.eswaran@gmail.com
     name: Dhuruvah Apps
     url: https://github.com/dhuruvah-apps/BuildSMEs-Api
-  description: Example Golang REST API
-  title: Go Example REST API
+  description: Golang REST API for BuildSMEs - A construction management platform
+    for SMEs
+  title: BuildSMEs REST API
   version: "1.0"
 paths:
   /auth/{id}:
@@ -198,7 +215,7 @@ paths:
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/httpErrors.RestError'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_pkg_httpErrors.RestError'
       summary: Delete user account
       tags:
       - Auth
@@ -218,11 +235,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.User'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/httpErrors.RestError'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_pkg_httpErrors.RestError'
       summary: get user by id
       tags:
       - Auth
@@ -242,7 +259,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.User'
       summary: Update user
       tags:
       - Auth
@@ -278,7 +295,7 @@ paths:
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/httpErrors.RestError'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_pkg_httpErrors.RestError'
       summary: Post avatar
       tags:
       - Auth
@@ -309,11 +326,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.UsersList'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.UsersList'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/httpErrors.RestError'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_pkg_httpErrors.RestError'
       summary: Get users
       tags:
       - Auth
@@ -334,11 +351,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.UsersList'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.UsersList'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/httpErrors.RestError'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_pkg_httpErrors.RestError'
       summary: Find by name
       tags:
       - Auth
@@ -353,7 +370,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.User'
       summary: Login new user
       tags:
       - Auth
@@ -383,11 +400,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.User'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/httpErrors.RestError'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_pkg_httpErrors.RestError'
       summary: Get user by id
       tags:
       - Auth
@@ -396,13 +413,20 @@ paths:
       consumes:
       - application/json
       description: register new user, returns user and token
+      parameters:
+      - description: models.User
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.User'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.User'
       summary: Register new user
       tags:
       - Auth
@@ -421,7 +445,7 @@ paths:
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/httpErrors.RestError'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_pkg_httpErrors.RestError'
       summary: Get CSRF token
       tags:
       - Auth
@@ -436,11 +460,10 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.Comment'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.Comment'
         "500":
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/httpErrors.RestErr'
+          schema: {}
       summary: Create new comment
       tags:
       - Comments
@@ -464,8 +487,7 @@ paths:
             type: string
         "500":
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/httpErrors.RestErr'
+          schema: {}
       summary: Delete comment
       tags:
       - Comments
@@ -485,11 +507,10 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Comment'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.Comment'
         "500":
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/httpErrors.RestErr'
+          schema: {}
       summary: Get comment
       tags:
       - Comments
@@ -509,11 +530,10 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Comment'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.Comment'
         "500":
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/httpErrors.RestErr'
+          schema: {}
       summary: Update comment
       tags:
       - Comments
@@ -549,11 +569,10 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.CommentsList'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.CommentsList'
         "500":
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/httpErrors.RestErr'
+          schema: {}
       summary: Get comments by news
       tags:
       - Comments
@@ -584,7 +603,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.NewsList'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.NewsList'
       summary: Get all news
       tags:
       - News
@@ -625,7 +644,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.News'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.News'
       summary: Get by id news
       tags:
       - News
@@ -645,7 +664,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.News'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.News'
       summary: Update news
       tags:
       - News
@@ -660,7 +679,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.News'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.News'
       summary: Create news
       tags:
       - News
@@ -691,7 +710,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.NewsList'
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.NewsList'
       summary: Search by title
       tags:
       - News

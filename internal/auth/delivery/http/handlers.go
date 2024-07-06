@@ -39,6 +39,7 @@ func NewAuthHandlers(cfg *config.Config, authUC auth.UseCase, sessUC session.UCS
 // @Tags Auth
 // @Accept json
 // @Produce json
+// @Param Request body models.User true "models.User"
 // @Success 201 {object} models.User
 // @Router /auth/register [post]
 func (h *authHandlers) Register() echo.HandlerFunc {

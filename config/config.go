@@ -12,6 +12,7 @@ import (
 type Config struct {
 	Server   ServerConfig
 	Postgres PostgresConfig
+	Sqlite   SqliteConfig
 	Redis    RedisConfig
 	MongoDB  MongoDB
 	Cookie   Cookie
@@ -57,6 +58,12 @@ type PostgresConfig struct {
 	PostgresqlDbname   string
 	PostgresqlSSLMode  bool
 	PgDriver           string
+}
+
+type SqliteConfig struct {
+	SqliteDriver string
+	DbFilePath   string
+	DbFileName   string
 }
 
 // Redis config

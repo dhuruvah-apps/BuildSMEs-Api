@@ -1,0 +1,41 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "swag",
+        "command": "swag init -g cmd/api/main.go --parseDependency --parseInternal",
+        "type": "shell"
+      },
+      {
+        "label": "go build",
+        "command": "cd src && go build -v -o BuildSMEs-Api.exe ./cmd/api/main.go",
+        "type": "shell",
+        "dependsOn": "swag"
+      },
+      {
+        "label": "Build for 64/32",
+        "type": "shell",
+        "command": "& bash ${workspaceFolder}\\build.sh",
+        "problemMatcher": [],
+        "options": {
+          "shell": {
+            "executable": "C:\\Program Files\\Git\\git-bash.exe"
+          }
+        }
+    },
+      {
+        "label": "go run",
+        "command": "cd src && ./BuildSMEs-Api.exe",
+        "type": "shell",
+        "dependsOn": "go build"
+      },
+      {
+        "label": "go air",
+        "command": "CompileDaemon --build='go build -v -o BuildSMEs-Api.exe cmd/api/main.go' --command=./BuildSMEs-Api.exe -exclude-dir=docs",
+        "type": "shell",
+        "dependsOn": "swag",
+        "problemMatcher": []
+      }
+    ]
+  }
+  

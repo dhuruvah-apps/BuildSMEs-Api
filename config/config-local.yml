@@ -28,6 +28,11 @@ postgres:
   PostgresqlSslmode: false
   PgDriver: pgx
 
+sqlite:
+  DbFileName: auth_db
+  DbFilePath: C:\GstData\
+  SqliteDriver: sqlite3
+
 redis:
   RedisAddr: /tmp/db
   RedisPassword:

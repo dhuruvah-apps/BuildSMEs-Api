@@ -37,8 +37,8 @@ type Server struct {
 }
 
 // NewServer New Server constructor
-func NewServer(cfg *config.Config, db *sqlx.DB, redisClient *redis.BadgerStore, awsS3Client *minio.Client, logger logger.Logger) *Server {
-	return &Server{echo: echo.New(), cfg: cfg, db: db, redisClient: redisClient, awsClient: awsS3Client, logger: logger}
+func NewServer(cfg *config.Config, db *sqlx.DB, redisClient *redis.BadgerStore, logger logger.Logger) *Server {
+	return &Server{echo: echo.New(), cfg: cfg, db: db, redisClient: redisClient, logger: logger}
 }
 
 func (s *Server) Run() error {
