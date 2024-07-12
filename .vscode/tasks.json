@@ -31,7 +31,7 @@
       },
       {
         "label": "go air",
-        "command": "CompileDaemon --build='go build -v -o BuildSMEs-Api.exe cmd/api/main.go' --command=./BuildSMEs-Api.exe -exclude-dir=docs",
+        "command": "CompileDaemon --build='swag init -g cmd/api/main.go --parseDependency --parseInternal && go build -v -o BuildSMEs-Api.exe cmd/api/main.go' --command=./BuildSMEs-Api.exe -exclude-dir=docs",
         "type": "shell",
         "dependsOn": "swag",
         "problemMatcher": []

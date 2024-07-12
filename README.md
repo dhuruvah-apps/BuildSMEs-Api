@@ -18,6 +18,7 @@
 * [gomock](https://github.com/golang/mock) - Mocking framework
 * [CompileDaemon](https://github.com/githubnemo/CompileDaemon) - Compile daemon for Go
 * [Docker](https://www.docker.com/) - Docker
+  go install -tags 'sqlite3' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
 
 #### Recomendation for local development most comfortable usage:
     make local // run all containers

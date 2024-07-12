@@ -1,0 +1,142 @@
+package http
+
+import (
+	"context"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+
+	"github.com/golang/mock/gomock"
+	"github.com/google/uuid"
+	"github.com/labstack/echo/v4"
+	"github.com/stretchr/testify/require"
+
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/files/mock"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/files/usecase"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/internal/models"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/converter"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/logger"
+	"github.com/dhuruvah-apps/BuildSMEs-Api/pkg/utils"
+)
+
+func TestFilesHandlers_Create(t *testing.T) {
+	t.Parallel()
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	apiLogger := logger.NewApiLogger(nil)
+	mockCommUC := mock.NewMockUseCase(ctrl)
+	commUC := usecase.NewFilesUseCase(nil, mockCommUC, apiLogger)
+
+	commHandlers := NewFilesHandlers(nil, commUC, apiLogger)
+	handlerFunc := commHandlers.Create()
+
+	userID := uuid.New()
+	newsUID := uuid.New()
+	file := &models.Comment{
+		AuthorID: userID,
+		Message:  "message Key: 'Comment.Message' Error:Field validation for 'Message' failed on the 'gte' tag",
+		NewsID:   newsUID,
+	}
+
+	buf, err := converter.AnyToBytesBuffer(file)
+	require.NoError(t, err)
+	require.NotNil(t, buf)
+	require.Nil(t, err)
+
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/files", strings.NewReader(buf.String()))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	res := httptest.NewRecorder()
+	u := &models.User{
+		UserID: userID,
+	}
+	ctxWithValue := context.WithValue(context.Background(), utils.UserCtxKey{}, u)
+	req = req.WithContext(ctxWithValue)
+
+	e := echo.New()
+	ctx := e.NewContext(req, res)
+
+	mockComm := &models.Comment{
+		AuthorID: userID,
+		NewsID:   file.NewsID,
+		Message:  "message",
+	}
+
+	fmt.Printf("COMMENT: %#v\n", file)
+	fmt.Printf("MOCK COMMENT: %#v\n", mockComm)
+
+	mockCommUC.EXPECT().Create(gomock.Any(), gomock.Any()).Return(mockComm, nil)
+
+	err = handlerFunc(ctx)
+	require.NoError(t, err)
+}
+
+func TestFilesHandlers_GetByID(t *testing.T) {
+	t.Parallel()
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	apiLogger := logger.NewApiLogger(nil)
+	mockCommUC := mock.NewMockUseCase(ctrl)
+	commUC := usecase.NewFilesUseCase(nil, mockCommUC, apiLogger)
+
+	commHandlers := NewFilesHandlers(nil, commUC, apiLogger)
+	handlerFunc := commHandlers.GetByID()
+
+	r := httptest.NewRequest(http.MethodGet, "/api/v1/files/5c9a9d67-ad38-499c-9858-086bfdeaf7d2", nil)
+	w := httptest.NewRecorder()
+	e := echo.New()
+	c := e.NewContext(r, w)
+	c.SetParamNames("file_id")
+	c.SetParamValues("5c9a9d67-ad38-499c-9858-086bfdeaf7d2")
+
+	comm := &models.CommentBase{}
+
+	mockCommUC.EXPECT().GetByID(gomock.Any(), gomock.Any()).Return(comm, nil)
+
+	err := handlerFunc(c)
+	require.NoError(t, err)
+}
+
+func TestFilesHandlers_Delete(t *testing.T) {
+	t.Parallel()
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	apiLogger := logger.NewApiLogger(nil)
+	mockCommUC := mock.NewMockUseCase(ctrl)
+	commUC := usecase.NewFilesUseCase(nil, mockCommUC, apiLogger)
+
+	commHandlers := NewFilesHandlers(nil, commUC, apiLogger)
+	handlerFunc := commHandlers.Delete()
+
+	userID := uuid.New()
+	commID := uuid.New()
+	comm := &models.CommentBase{
+		CommentID: commID,
+		AuthorID:  userID,
+	}
+
+	r := httptest.NewRequest(http.MethodDelete, "/api/v1/files/5c9a9d67-ad38-499c-9858-086bfdeaf7d2", nil)
+	w := httptest.NewRecorder()
+	u := &models.User{
+		UserID: userID,
+	}
+	ctxWithValue := context.WithValue(context.Background(), utils.UserCtxKey{}, u)
+	r = r.WithContext(ctxWithValue)
+	e := echo.New()
+	c := e.NewContext(r, w)
+	c.SetParamNames("file_id")
+	c.SetParamValues(commID.String())
+
+	mockCommUC.EXPECT().GetByID(gomock.Any(), commID).Return(comm, nil)
+	mockCommUC.EXPECT().Delete(gomock.Any(), commID).Return(nil)
+
+	err := handlerFunc(c)
+	require.NoError(t, err)
+}

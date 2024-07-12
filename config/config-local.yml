@@ -29,7 +29,7 @@ postgres:
   PgDriver: pgx
 
 sqlite:
-  DbFileName: auth_db
+  DbFileName: buildsme_db
   DbFilePath: C:\GstData\
   SqliteDriver: sqlite3
 

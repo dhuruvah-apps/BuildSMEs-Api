@@ -1,19 +1,19 @@
-.PHONY: migrate migrate_down migrate_up migrate_version docker prod docker_delve local swaggo test
+.PHONY: migrate migrate_down migrate_up migrate_version local swaggo test
 
 # ==============================================================================
 # Go migrate postgresql
 
 force:
-	migrate -database postgres://postgres:postgres@localhost:5432/auth_db?sslmode=disable -path migrations force 1
+	migrate -database sqlite3://c/GstData/auth_db -path migrations force 1
 
 version:
-	migrate -database postgres://postgres:postgres@localhost:5432/auth_db?sslmode=disable -path migrations version
+	migrate -database sqlite3://c/GstData/auth_db -path migrations version
 
 migrate_up:
-	migrate -database postgres://postgres:postgres@localhost:5432/auth_db?sslmode=disable -path migrations up 1
+	migrate -database sqlite3://C/GstData/auth_db -path migrations up 1
 
 migrate_down:
-	migrate -database postgres://postgres:postgres@localhost:5432/auth_db?sslmode=disable -path migrations down 1
+	migrate -database sqlite3://c:\\GstData\\auth_db -path migrations down 1
 
 # ==============================================================================
 # Tools commands

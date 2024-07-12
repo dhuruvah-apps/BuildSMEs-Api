@@ -576,6 +576,127 @@ paths:
       summary: Get comments by news
       tags:
       - Comments
+  /files:
+    get:
+      consumes:
+      - application/json
+      description: Get all file by news id
+      parameters:
+      - description: page number
+        format: page
+        in: query
+        name: page
+        type: integer
+      - description: number of elements per page
+        format: size
+        in: query
+        name: size
+        type: integer
+      - description: filter name
+        format: orderBy
+        in: query
+        name: orderBy
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.CommentsList'
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Get files by news
+      tags:
+      - Files
+    post:
+      consumes:
+      - application/json
+      description: create new file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.Comment'
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Create new file
+      tags:
+      - Files
+  /files/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete file
+      parameters:
+      - description: file_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Delete file
+      tags:
+      - Files
+    get:
+      consumes:
+      - application/json
+      description: Get file by id
+      parameters:
+      - description: file_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.Comment'
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Get file
+      tags:
+      - Files
+    put:
+      consumes:
+      - application/json
+      description: update new file
+      parameters:
+      - description: file_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_dhuruvah-apps_BuildSMEs-Api_internal_models.Comment'
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Update file
+      tags:
+      - Files
   /news:
     get:
       consumes:
